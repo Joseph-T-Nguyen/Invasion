@@ -22,20 +22,28 @@ class Game:
         """
         running = True
         while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-        
-            # Redraw screen 
-            self.screen.fill(self.settings.bg_colour)
-            self.ship.blitme()
+            self._check_events()
+            self._update_screen()
 
-            # Display most recently drawn screen
-            pygame.display.flip()
         
-        # Once we break out of the loop, stop the game
-        pygame.quit()
-        # sys.exit()  # TODO Which to use?
+    def _check_events(self):
+        """
+        Private function to respond to keypresses and mouse events
+        """
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()  # Call to sys.exit() closes script immediately
+
+    def _update_screen(self):
+        """
+        Private function to update images on screen and flip to new screen
+        """
+        # Redraw screen 
+        self.screen.fill(self.settings.bg_colour)
+        self.ship.blitme()
+
+        # Display most recently drawn screen
+        pygame.display.flip()
 
 if __name__ == "__main__":
     game = Game()
