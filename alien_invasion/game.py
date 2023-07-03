@@ -4,6 +4,7 @@ import sys
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class Game:
     """
@@ -21,6 +22,8 @@ class Game:
         pygame.display.set_caption("Alien Invasion")
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+        self._create_fleet()
 
     def run(self):
         """
@@ -88,6 +91,35 @@ class Game:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _create_fleet(self):
+        """
+        Create the fleet of aliens
+        """
+        alien_width, alien_height = Alien(self).rect.size
+        space_available_x = self.settings.screen_wdith - (2*alien_width)
+        number_aliens = space_available_x // (2*alien_width)
+
+        # Determine number of rows of aliens that fit on screen
+        ship_height = self.ship.rect.height
+        space_available_y = self.settings.screen_height - (3*alien_height) - ship_height
+        number_rows = space_available_y // (2 * alien_height)
+
+        # Create full fleet of aliens
+        for row in range(number_rows):
+            for num in range(number_aliens):
+                self._create_alien(num, row)
+
+    def _create_alien(self, num, row):
+        """
+        Creates an alien and places it in the row
+        """
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2*alien_width*num
+        alien.rect.x = alien.x
+        alien.rect.y = alien_height + 2*alien_height*row
+        self.aliens.add(alien)
+
     def _update_screen(self):
         """
         Private function to update images on screen and flip to new screen
@@ -99,6 +131,9 @@ class Game:
         # Draw bullets fired
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+
+        # Draw aliens
+        self.aliens.draw(self.screen)
 
         # Display most recently drawn screen
         pygame.display.flip()
