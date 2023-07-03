@@ -4,9 +4,6 @@ class Ship:
     def __init__(self, game):
         """
         Initialise ship and set starting position
-
-        Ship image taken at: https://www.flaticon.com/free-icon/rocket_293581
-                 Image Size: 64px by 64px
         """
         self.screen = game.screen
         self.settings = game.settings
