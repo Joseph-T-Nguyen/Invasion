@@ -3,6 +3,7 @@ import sys
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 class Game:
     """
@@ -13,8 +14,14 @@ class Game:
         pygame.init()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_wdith, self.settings.screen_height))
+        ### Fullscreen game. TODO Implement "QUIT" button, as pygame offers no default way to quit game while in fullscreen (no red 'x' button)
+        # self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+        # self.settings.screen_width = self.screen.get_rect().width
+        # self.settings.screen_height = self.screen.get_rect().height
+        
         pygame.display.set_caption("Alien Invasion")
         self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
 
     def run(self):
         """
@@ -24,6 +31,7 @@ class Game:
         while running:
             self._check_events()
             self.ship.update()
+            self._update_bullets()
             self._update_screen()
 
     def _check_events(self):
@@ -48,6 +56,10 @@ class Game:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
+        elif event.key == pygame.K_q:   # Quit the game on press of 'Q' key
+            sys.exit()  
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
     
     def _check_keyup_events(self, event):
         """
@@ -56,7 +68,26 @@ class Game:
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = False     
+            self.ship.moving_left = False   
+
+    def _fire_bullet(self):
+        """
+        Create new bullet and add to bullet group
+        """  
+        if len(self.bullets) < self.settings.bullets_allowed:
+            self.bullets.add(Bullet(self))
+    
+    def _update_bullets(self):
+        """
+        Update bullet positions and removes bullets off the screen
+        """
+        # Update bullet positions
+        self.bullets.update()
+        
+        # Get rid of bullets that are off the screen
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
 
     def _update_screen(self):
         """
@@ -65,6 +96,10 @@ class Game:
         # Redraw screen 
         self.screen.fill(self.settings.bg_colour)
         self.ship.blitme()
+
+        # Draw bullets fired
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
 
         # Display most recently drawn screen
         pygame.display.flip()
