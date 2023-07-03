@@ -9,7 +9,6 @@ class Game:
     """
     Driver class
     """
-    SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 800
     def __init__(self):
         pygame.init()
         self.settings = Settings()
