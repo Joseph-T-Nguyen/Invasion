@@ -7,6 +7,7 @@ TODOs:
 
 BUGs:
 * Alien fleet not dynamically readjusting when playing in fullscreen - revisit calculation
+* Speed of entire game increases as you destroy more aliens.
 
 Images:
 * ship_old.png: https://www.flaticon.com/free-icon/rocket_293581. 64px by 64px
