@@ -12,6 +12,7 @@ class Settings:
         self._init_screen_settings()
         self._init_ship_settings()
         self._init_bullet_settings()
+        self._init_alien_settings()
 
     def _init_screen_settings(self):
         """
@@ -36,3 +37,11 @@ class Settings:
         self.bullet_height = 15
         self.bullet_colour = (60, 60, 60)   # Dark gray bullets
         self.bullets_allowed = 3            # Limit ammo on screen
+
+    def _init_alien_settings(self):
+        """
+        Initialises alien settings
+        """
+        self.alien_speed = 1.0
+        self.fleet_drop_speed = 10
+        self.fleet_direction = 1    # 1 = right, -1 = left
