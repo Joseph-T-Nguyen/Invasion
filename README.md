@@ -1,5 +1,6 @@
 # Invasion
-A small alien invasion clone made in python using pygame
+A small alien invasion clone made in python using pygame. 
+Based off Python Crash Course by Eric Matthes
 
 TODOs: 
 * Add getters/setters for each class
