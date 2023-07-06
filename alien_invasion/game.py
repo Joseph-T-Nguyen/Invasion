@@ -1,10 +1,12 @@
 import pygame
 import sys
+from time import sleep
 
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from stats import Stats
 
 class Game:
     """
@@ -20,6 +22,7 @@ class Game:
         # self.settings.screen_height = self.screen.get_rect().height
         
         pygame.display.set_caption("Alien Invasion")
+        self.stats = Stats(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -29,12 +32,14 @@ class Game:
         """
         Main game loop
         """
-        running = True
-        while running:
+        while True:
             self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
+
+            if self.stats.game_active:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
+            
             self._update_screen()
 
     def _check_events(self):
@@ -160,6 +165,43 @@ class Game:
         """
         self._check_fleet_edges()
         self.aliens.update()
+
+        # Look for alien-ship collisions
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
+
+        # Look for aliens hitting bottom of screen
+        self._check_aliens_bottom()
+
+    def _ship_hit(self):
+        """
+        Responds to ship being hit by alien
+        """
+        if self.stats.ships_left > 0: 
+            self.stats.ships_left -= 1
+        
+            # Get rid of remaining aliens and bullets
+            self.aliens.empty()
+            self.bullets.empty()
+
+            # Create new fleet and center the ship
+            self._create_fleet()
+            self.ship.centre_ship()
+
+            # Pause
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
+
+    def _check_aliens_bottom(self):
+        """
+        Check if any aliens have reached the bottom of the screen
+        """
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                self._ship_hit()    # Treat same as ship being hit
+                break
 
     def _update_screen(self):
         """
