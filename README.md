@@ -5,6 +5,7 @@ Based off Python Crash Course by Eric Matthes
 TODOs: 
 * Add getters/setters for each class
 * Add "start game" and "quit game" buttons when running in full-screen mode
+* Reorganise game.py - too many functions/"God object" 
 
 BUGs:
 * Alien fleet not dynamically readjusting when playing in fullscreen - revisit calculation
