@@ -2,8 +2,12 @@
 A small alien invasion clone made in python using pygame. 
 Based off Python Crash Course by Eric Matthes
 
+Quick note: File paths for images may not be set correctly. 
+* When running on VSCode use: `pygame.image.load("alien_invasion/images/<FILENAME.png>")`
+* When running from terminal use: `pygame.image.load("images/<FILENAME.png>")`
+
 TODOs: 
-* Add getters/setters for each class
+* Add getters/setters for each class 
 * Add "start game" and "quit game" buttons when running in full-screen mode
 * Reorganise game.py - too many functions/"God object" 
 
