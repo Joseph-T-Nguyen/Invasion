@@ -10,8 +10,8 @@ class Ship:
         self.screen_rect = game.screen.get_rect()
 
         # Load ship image and get rect
-        self.image = pygame.image.load("alien_invasion/images/ship.png") # alien_invasion/... required for vscode.
-        # self.image = pygame.image.load("images/ship.png") ### TODO VSCode reads file path from one file above. Uncomment for final version
+        # self.image = pygame.image.load("alien_invasion/images/ship.png") # alien_invasion/... required for vscode.
+        self.image = pygame.image.load("images/ship.png") 
         self.rect = self.image.get_rect()
 
         # Start new ship at bottom centre of screen
