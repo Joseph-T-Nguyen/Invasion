@@ -6,7 +6,7 @@ To run the game make sure you have python 3 installed, and install the pygame li
 
 `pip install pygame` to install globally, or `python3 -m pip install -U pygame --user` 
 
-We can run the game by the command: `py alien.py`
+Navigate into the `alien_invasion` folder. We can run the game by the command: `py alien.py`
 
 NOTE: 
 * Game is incomplete - as it is, it will continually loop over and over
